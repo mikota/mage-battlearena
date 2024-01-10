@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate() {
         if (gameOver) return;
-        MoveCharacter();
+        //MoveCharacter();
         RotateCharacter();
         RotateAbilityRange();
     }
