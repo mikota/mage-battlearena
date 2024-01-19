@@ -11986,6 +11986,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab:
     RawGuidValue: 73c880d9d7d8258459855870cd4d8b82
+  _firstProjectilePrefab:
+    RawGuidValue: a9ec303f261cd3945bb73a1d2e395f0f
 --- !u!4 &777814515
 Transform:
   m_ObjectHideFlags: 0

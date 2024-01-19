@@ -9,7 +9,9 @@ using UnityEngine.SceneManagement;
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
+    [SerializeField] private NetworkPrefabRef _firstProjectilePrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    int cooldownFirst = 0;
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -62,6 +64,13 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
+
+        if (Input.GetKey(KeyCode.Q)){
+            if(cooldownFirst <= 0){
+                var projectile = runner.Spawn(_firstProjectilePrefab, new Vector3(1.0f, 1.10f, 1.0f), null, null);
+                cooldownFirst = 200;
+            }
+        }
 
         input.Set(data);
     }
