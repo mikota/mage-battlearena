@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private AbilityCooldown abilitySecondCooldown;
     [SerializeField] private GameObject abilityFirstHolder;
     [SerializeField] private GameObject abilitySecondHolder;
+
+    [SerializeField] private CharacterController movementController;
     private Ability ability;
     public enum Ability
     {
@@ -48,10 +50,10 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
         if (gameOver) return; 
-        HandleMovementInput();
+        //HandleMovementInput();
         HandleMouseInput();
         HandleMovementAnimation();
-        HandleAbilityInput();
+        //HandleAbilityInput();
     }
 
     void FixedUpdate() {
@@ -132,10 +134,11 @@ public class PlayerController : MonoBehaviour {
         float horizontalMovement = 0f;
         float verticalMovement = 0f;
 
-        if (movementInput != Vector3.zero) {
+        if (movementController.velocity.magnitude > 0.25f) {
             animator.SetBool("isMoving", true);
 
-            float angle = Vector3.SignedAngle(movementInput, lookPoint - transform.position, Vector3.up);
+          //  float angle = Vector3.SignedAngle(movementInput, lookPoint - transform.position, Vector3.up);
+            float angle = Vector3.SignedAngle(movementController.velocity, lookPoint - transform.position, Vector3.up);
             horizontalMovement = -Mathf.Sin(Mathf.Deg2Rad * angle);
             verticalMovement = Mathf.Cos(Mathf.Deg2Rad * angle);
         } else {
