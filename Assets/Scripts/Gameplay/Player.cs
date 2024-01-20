@@ -56,7 +56,7 @@ public class Player : MonoBehaviour {
 
     public void GetHit()
     {
-        animator.SetTrigger("getHit");
+       // animator.SetTrigger("getHit");
     }
 
 }

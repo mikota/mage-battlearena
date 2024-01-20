@@ -17,10 +17,14 @@ public class PlayerNetwork : NetworkBehaviour
     [Networked] public PlayerController.Ability ability { get; set; }
     [Networked] public Vector3 anim_movementInput { get; set; }
     [Networked] public bool anim_isMoving { get; set; }
-    private const byte TRIGGER_ATTACK = 1;
-    private const byte TRIGGER_HIT = 2;
-    private const byte TRIGGER_DEATH = 3;
-    [Networked] public byte anim_triggers { get; set; }
+    public enum TriggerFlags
+    {
+        NONE = 0,
+        ATTACK = 1,
+        HIT = 2,
+        DEATH = 4
+    }
+    [Networked] public TriggerFlags anim_triggers { get; set; }
     
     //float _speed = 5.0f;
 
@@ -34,18 +38,30 @@ public class PlayerNetwork : NetworkBehaviour
     {
         clientHealth.SetCurrentHealth(health);
         playerController.SetLookPoint(lookPoint);
+        
+        animator.SetFloat("horizontalMovement", anim_movementInput.x);
+        animator.SetFloat("verticalMovement", anim_movementInput.z);
+        animator.SetBool("isMoving", anim_isMoving);
+
     }
 
     public override void Render()
     {
-        animator.SetFloat("Horizontal", anim_movementInput.x);
-        animator.SetFloat("Vertical", anim_movementInput.z);
-        animator.SetBool("isMoving", anim_isMoving);
-        if ((anim_triggers & TRIGGER_ATTACK) != 0)
+        if ((anim_triggers & TriggerFlags.ATTACK) != 0)
         {
             animator.SetTrigger("attack");
+            anim_triggers = anim_triggers & ~TriggerFlags.ATTACK;
         }
-        anim_triggers = 0;
+        if ((anim_triggers & TriggerFlags.HIT) != 0)
+        {
+            animator.SetTrigger("hit");
+            anim_triggers = anim_triggers & ~TriggerFlags.HIT;
+        }
+        if ((anim_triggers & TriggerFlags.DEATH) != 0)
+        {
+            animator.SetTrigger("death");
+            anim_triggers = anim_triggers & ~TriggerFlags.DEATH;
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -61,7 +77,6 @@ public class PlayerNetwork : NetworkBehaviour
 
             anim_movementInput = data.direction;
             anim_isMoving = data.direction.magnitude > 0.1f;
-            anim_triggers = 0;
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_NOABILITY))
             {
@@ -79,7 +94,7 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK) && ability != PlayerController.Ability.None)
             {
-                anim_triggers |= TRIGGER_ATTACK;
+                anim_triggers |= TriggerFlags.ATTACK;
                 GameObject prefab = null;
                 if (ability == PlayerController.Ability.First)
                 {
@@ -105,6 +120,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (playerController != null)
         {
+            anim_triggers |= TriggerFlags.HIT;
             health -= dmg;
             clientHealth.TakeDamage(dmg);
         }
