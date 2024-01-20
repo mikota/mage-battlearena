@@ -193,6 +193,16 @@ public class PlayerNetwork : NetworkBehaviour
         relativePosition = lookPoint - transform.position;
         rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
         transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
+        //put back on ground if flying up
+        if (Mathf.Abs(transform.position.y) > 2.5f)
+        {
+            transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
+        }
+        //put in center of map if too far out
+        if (Mathf.Abs(transform.position.x) > 21f || Mathf.Abs(transform.position.z) > 42f)
+        {
+            transform.position = new Vector3(0f, 2.5f, 0f);
+        }
     }
 
     public bool TakeDamage(float dmg)
