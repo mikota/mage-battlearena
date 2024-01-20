@@ -30,6 +30,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        Vector3 relativePosition;
+        Quaternion rotation;
         if (GetInput(out NetworkInputData data))
         {
             data.direction.Normalize();
@@ -62,12 +64,15 @@ public class PlayerNetwork : NetworkBehaviour
                     prefab = projectileSecondPrefab;
                 }
                 var projectile = Runner.Spawn(prefab, transform.position + transform.forward, transform.rotation);
+                relativePosition = lookPoint - transform.position;
+                rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
+                transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
                 projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward);
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
         }
-        Vector3 relativePosition = lookPoint - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
+        relativePosition = lookPoint - transform.position;
+        rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
         transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
     }
 
