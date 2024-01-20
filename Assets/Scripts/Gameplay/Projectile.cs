@@ -10,6 +10,7 @@ public class Projectile : NetworkBehaviour {
     [SerializeField] private float speed = 3f;
     [SerializeField] private int damage;
     private Rigidbody rigidBody;
+    private Vector3 direction;
 
     void Awake() {
         rigidBody = GetComponent<Rigidbody>();
@@ -17,9 +18,15 @@ public class Projectile : NetworkBehaviour {
 
     public void Initialize(Vector3 initialVelocity) {
         if (rigidBody != null) {
-            rigidBody.velocity = initialVelocity * speed;
+            //rigidBody.velocity = initialVelocity * speed;
+            direction = initialVelocity.normalized;
         }
-        Destroy(gameObject, duration);
+        //Destroy(gameObject, duration);
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        transform.position += direction * speed * Runner.DeltaTime;
     }
 
     void OnCollisionEnter(Collision collision) {
