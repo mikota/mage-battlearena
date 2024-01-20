@@ -59,7 +59,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         if ((anim_triggers & TriggerFlags.DEATH) != 0)
         {
-            animator.SetTrigger("death");
+            animator.SetTrigger("die");
             anim_triggers = anim_triggers & ~TriggerFlags.DEATH;
         }
     }
@@ -123,6 +123,10 @@ public class PlayerNetwork : NetworkBehaviour
             anim_triggers |= TriggerFlags.HIT;
             health -= dmg;
             clientHealth.TakeDamage(dmg);
+            if (health <= 0)
+            {
+                anim_triggers |= TriggerFlags.DEATH;
+            }
         }
     }
 }
