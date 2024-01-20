@@ -14,7 +14,7 @@ public class Projectile : NetworkBehaviour {
     float speedFraction = 0.0f;
     [SerializeField] private float scale = 1.0f;
     [SerializeField] private ParticleSystem particleSystem;
-    public PlayerNetwork playerNetwork;
+    public PlayerNetwork playerOwner;
 
     void Awake() {
         rigidBody = GetComponent<Rigidbody>();
@@ -25,7 +25,7 @@ public class Projectile : NetworkBehaviour {
             //rigidBody.velocity = initialVelocity * speed;
             direction = initialVelocity.normalized;
         }
-        playerNetwork = pl;
+        playerOwner = pl;
         //Destroy(gameObject, duration);
     }
 
@@ -53,7 +53,10 @@ public class Projectile : NetworkBehaviour {
         if (playerNetwork != null)
         {
             Debug.Log("HIT for " + damage + " damage!");
-            playerNetwork.TakeDamage(damage);
+            if (playerNetwork.TakeDamage(damage)) //killing blow
+            {
+                playerOwner.killCount++;
+            }
         }
         Destroy(gameObject);
     }

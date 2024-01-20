@@ -50,6 +50,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void Update()
     {
         clientHealth.SetCurrentHealth(health);
+        clientHealth.SetKillCount(killCount);
         playerController.SetLookPoint(lookPoint);
         
         animator.SetFloat("horizontalMovement", anim_movementInput.x);
@@ -81,16 +82,15 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (isDead)
         {
+            _cc.enabled = false;
             if (Time.time > respawnTime)
             {
                 isDead = false;
                 health = 1000;
                 clientHealth.SetCurrentHealth(health);
                 anim_triggers = TriggerFlags.NONE;
-                animator.ResetTrigger("die");
-                animator.ResetTrigger("getHit");
-                animator.ResetTrigger("attack");
-                animator.SetBool("isMoving", false);
+                animator.Rebind();
+                animator.Update(0f);
                 playerController.SetLookPoint(transform.position + transform.forward);
                 Vector3 spawnPosition;
                 GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("spawnpoint");
@@ -104,9 +104,12 @@ public class PlayerNetwork : NetworkBehaviour
                     spawnPosition = new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 1.10f, UnityEngine.Random.Range(-1.0f, 1.0f));
                 }
                 transform.position = spawnPosition;
+            } else
+            {
+                return;
             }
         }
-
+        _cc.enabled = true;
         Vector3 relativePosition;
         Quaternion rotation;
         if (GetInput(out NetworkInputData data))
@@ -187,7 +190,7 @@ public class PlayerNetwork : NetworkBehaviour
         transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
     }
 
-    public void TakeDamage(float dmg)
+    public bool TakeDamage(float dmg)
     {
         if (playerController != null)
         {
@@ -199,7 +202,9 @@ public class PlayerNetwork : NetworkBehaviour
                 anim_triggers |= TriggerFlags.DEATH;
                 isDead = true;
                 respawnTime = Time.time + 1.5f;
+                return true;
             }
         }
+        return false;
     }
 }
