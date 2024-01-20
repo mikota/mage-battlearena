@@ -11,6 +11,7 @@ public class Projectile : NetworkBehaviour {
     [SerializeField] private int damage;
     private Rigidbody rigidBody;
     private Vector3 direction;
+    float speedFraction = 0.0f;
 
     void Awake() {
         rigidBody = GetComponent<Rigidbody>();
@@ -26,7 +27,10 @@ public class Projectile : NetworkBehaviour {
 
     public override void FixedUpdateNetwork()
     {
-        transform.position += direction * speed * Runner.DeltaTime;
+        speedFraction = Mathf.Lerp(speedFraction, 1.0f, Runner.DeltaTime*1.5f);
+        transform.localScale = new Vector3(0.75f,0.75f,0.75f) * speedFraction;
+
+        transform.position += direction * speedFraction * speed * Runner.DeltaTime;
     }
 
     void OnCollisionEnter(Collision collision) {
