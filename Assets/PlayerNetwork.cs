@@ -66,7 +66,9 @@ public class PlayerNetwork : NetworkBehaviour
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
         }
-       // transform.eulerAngles = new Vector3(0, 0, 0);
+        Vector3 relativePosition = lookPoint - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
+        transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
     }
 
     public void TakeDamage(float dmg)
