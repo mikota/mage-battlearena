@@ -6,6 +6,7 @@ using Fusion;
 public class PlayerNetwork : NetworkBehaviour
 {
   private NetworkCharacterController _cc;
+    public PlayerController playerController;
 
   //float _speed = 5.0f;
 
@@ -21,6 +22,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
       data.direction.Normalize();
       _cc.Move(5*data.direction*Runner.DeltaTime);
+            playerController.SetLookPoint(data.lookAt);
       //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
     }
   }

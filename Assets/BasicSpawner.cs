@@ -10,6 +10,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    private Vector3 lookAt;
+
+    public void ClientSetLookat(Vector3 _lookAt)
+    {
+        lookAt = _lookAt;
+    }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -62,6 +68,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
+
+        data.lookAt = lookAt;
 
         input.Set(data);
     }

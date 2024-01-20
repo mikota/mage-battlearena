@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private GameObject abilitySecondHolder;
 
     [SerializeField] private CharacterController movementController;
+    private BasicSpawner networkSpawner;
     private Ability ability;
     public enum Ability
     {
@@ -40,12 +41,18 @@ public class PlayerController : MonoBehaviour {
         Second
     }
 
+    public void SetLookPoint(Vector3 _lookPoint)
+    {
+        lookPoint = _lookPoint;
+    }
+
     void Start() {
         ability = Ability.None;
         movementInput = Vector3.zero;
         lookPoint = Vector3.zero;
         animator = GetComponentInChildren<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+        networkSpawner = FindObjectOfType<BasicSpawner>();
     }
 
     void Update() {
@@ -59,7 +66,7 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate() {
         if (gameOver) return;
         //MoveCharacter();
-        RotateCharacter();
+        //RotateCharacter();
         RotateAbilityRange();
     }
 
@@ -77,7 +84,8 @@ public class PlayerController : MonoBehaviour {
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
 
         if (groundPlane.Raycast(cameraRay, out float rayDistance)) {
-            lookPoint = cameraRay.GetPoint(rayDistance);
+         //   lookPoint = cameraRay.GetPoint(rayDistance);
+            networkSpawner.ClientSetLookat(cameraRay.GetPoint(rayDistance)); 
         }
 
         if (ability == Ability.None) return;
