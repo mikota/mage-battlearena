@@ -11,9 +11,13 @@ public class PlayerNetwork : NetworkBehaviour
     public PlayerRef playerRef;
     [SerializeField] private GameObject projectileFirstPrefab;
     [SerializeField] private GameObject projectileSecondPrefab;
+    [SerializeField] private Animator animator;
     [Networked] public float health { get; set; }
     [Networked] public Vector3 lookPoint { get; set; }
     [Networked] public PlayerController.Ability ability { get; set; }
+    [Networked] public Vector3 anim_movementInput { get; set; }
+    [Networked] public bool anim_isMoving { get; set; }
+    
     //float _speed = 5.0f;
 
     private void Awake()
@@ -28,6 +32,13 @@ public class PlayerNetwork : NetworkBehaviour
         playerController.SetLookPoint(lookPoint);
     }
 
+    public override void Render()
+    {
+        animator.SetFloat("Horizontal", anim_movementInput.x);
+        animator.SetFloat("Vertical", anim_movementInput.z);
+        animator.SetBool("isMoving", anim_isMoving);
+    }
+
     public override void FixedUpdateNetwork()
     {
         Vector3 relativePosition;
@@ -38,6 +49,9 @@ public class PlayerNetwork : NetworkBehaviour
             _cc.Move(5 * data.direction * Runner.DeltaTime);
             lookPoint = data.lookAt;
             playerController.SetLookPoint(data.lookAt);
+
+            anim_movementInput = data.direction;
+            anim_isMoving = data.direction.magnitude > 0.1f;
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_NOABILITY))
             {

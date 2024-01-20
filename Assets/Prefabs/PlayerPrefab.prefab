@@ -836,6 +836,7 @@ MonoBehaviour:
   clientHealth: {fileID: 5790475579762290424}
   projectileFirstPrefab: {fileID: 6665805917468377687, guid: 7207dbdf231d5bb42ab50ddff4299666, type: 3}
   projectileSecondPrefab: {fileID: 6665805917468377687, guid: f336bac3439b102439392c84309a131d, type: 3}
+  animator: {fileID: 531363300147521272}
   _health: 1000
   _lookPoint: {x: 0, y: 0, z: 0}
   _ability: 0
@@ -935,3 +936,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 3276359207274590252}
+--- !u!95 &531363300147521272 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95805638432926132, guid: dbf7a0c9d76b77a40af3104feac0641d, type: 3}
+  m_PrefabInstance: {fileID: 435607417300897612}
+  m_PrefabAsset: {fileID: 0}
