@@ -10,7 +10,10 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private Health clientHealth;
     public PlayerRef playerRef;
     [SerializeField] private GameObject projectileFirstPrefab;
+    [SerializeField] private GameObject projectileSecondPrefab;
     [Networked] public float health { get; set; }
+    [Networked] public Vector3 lookPoint { get; set; }
+    [Networked] public PlayerController.Ability ability { get; set; }
     //float _speed = 5.0f;
 
     private void Awake()
@@ -31,9 +34,32 @@ public class PlayerNetwork : NetworkBehaviour
             data.direction.Normalize();
             _cc.Move(5 * data.direction * Runner.DeltaTime);
             playerController.SetLookPoint(data.lookAt);
-            if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK))
+
+            if (data.buttons.IsSet(NetworkInputData.BUTTON_NOABILITY))
             {
-                var projectile = Runner.Spawn(projectileFirstPrefab, transform.position + transform.forward, transform.rotation);
+                ability = PlayerController.Ability.None;
+            } else
+            {
+                if (data.buttons.IsSet(NetworkInputData.BUTTON_FIRSTABILITY))
+                {
+                    ability = PlayerController.Ability.First;
+                } else if (data.buttons.IsSet(NetworkInputData.BUTTON_SECONDABILITY))
+                {
+                    ability = PlayerController.Ability.Second;
+                }
+            }
+
+            if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK) && ability != PlayerController.Ability.None)
+            {
+                GameObject prefab = null;
+                if (ability == PlayerController.Ability.First)
+                {
+                    prefab = projectileFirstPrefab;
+                } else
+                {
+                    prefab = projectileSecondPrefab;
+                }
+                var projectile = Runner.Spawn(prefab, transform.position + transform.forward, transform.rotation);
                 projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward);
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);

@@ -80,6 +80,15 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         if (Input.GetKey(KeyCode.D))
             data.direction += Vector3.right;
 
+        if (Input.GetKey(KeyCode.Q))
+            data.buttons.Set(NetworkInputData.BUTTON_FIRSTABILITY, true);
+
+        if (Input.GetKey(KeyCode.E))
+            data.buttons.Set(NetworkInputData.BUTTON_SECONDABILITY, true);
+
+        if (Input.GetKey(KeyCode.Tab))
+            data.buttons.Set(NetworkInputData.BUTTON_NOABILITY, true);
+
         data.lookAt = lookAt;
         data.buttons.Set(NetworkInputData.BUTTON_ATTACK, mouseButtonSampled);
         mouseButtonSampled = false;
