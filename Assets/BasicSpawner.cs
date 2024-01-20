@@ -33,7 +33,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             // Create a unique position for the player
             Vector3 spawnPosition;
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("spawnpoint");
-            /*
+            
             if (spawnPoints.Length > 0)
             {
                 spawnPosition = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
@@ -41,11 +41,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             else
             {
                 spawnPosition = new Vector3(UnityEngine.Random.Range(-5f, 5f), 1.10f, UnityEngine.Random.Range(-5f, 5f));
-                //spawnPosition = new Vector3(1.0f, 0.0f, 0.0f);
             }
-            */
-            //spawnPosition = new Vector3(0.0f, 1.10f, 0.0f);
-            spawnPosition = new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 1.10f, UnityEngine.Random.Range(-1.0f, 1.0f));
+            
 
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             networkPlayerObject.GetComponent<PlayerNetwork>().playerRef = player;
