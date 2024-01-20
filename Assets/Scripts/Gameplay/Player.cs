@@ -35,17 +35,17 @@ public class Player : MonoBehaviour {
         uiManager.UpdateUI();
 
         // WE PLAYED FOR 3 ROUNDS
-        if (PlayerPrefs.GetInt("current_round", 1) == 4)
-        {
-            uiManager.GameOver();
-        }
-        else
-        {
-            Invoke("ResetScene", 2);
-        }
+        /* if (PlayerPrefs.GetInt("current_round", 1) == 4)
+         {
+             uiManager.GameOver();
+         }
+         else
+         {
+             Invoke("ResetScene", 2);
+         }*/
+
 
         animator.SetTrigger("die");
-        GetComponent<CapsuleCollider>().enabled = false;
 
     }
 

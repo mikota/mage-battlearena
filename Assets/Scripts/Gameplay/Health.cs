@@ -40,9 +40,9 @@ public class Health : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            if (healthbar != null) healthbar.gameObject.SetActive(false);
-            if (healthText != null) healthText.gameObject.SetActive(false);
-            defeatCallback.Invoke();
+           // if (healthbar != null) healthbar.gameObject.SetActive(false);
+           // if (healthText != null) healthText.gameObject.SetActive(false);
+           // defeatCallback.Invoke();
         }
         else
             getHitCallback.Invoke();

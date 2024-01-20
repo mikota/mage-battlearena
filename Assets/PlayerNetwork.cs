@@ -35,6 +35,8 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private float abilitySecondCooldownTime = 1.5f;
     private float ability1NextFireTime = 0f;
     private float ability2NextFireTime = 0f;
+    [Networked] public bool isDead { get; set; }
+    [Networked] public float respawnTime { get; set; }
     
     //float _speed = 5.0f;
 
@@ -76,6 +78,34 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (isDead)
+        {
+            if (Time.time > respawnTime)
+            {
+                isDead = false;
+                health = 1000;
+                clientHealth.SetCurrentHealth(health);
+                anim_triggers = TriggerFlags.NONE;
+                animator.ResetTrigger("die");
+                animator.ResetTrigger("getHit");
+                animator.ResetTrigger("attack");
+                animator.SetBool("isMoving", false);
+                playerController.SetLookPoint(transform.position + transform.forward);
+                Vector3 spawnPosition;
+                GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("spawnpoint");
+
+                if (spawnPoints.Length > 0)
+                {
+                    spawnPosition = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
+                }
+                else
+                {
+                    spawnPosition = new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 1.10f, UnityEngine.Random.Range(-1.0f, 1.0f));
+                }
+                transform.position = spawnPosition;
+            }
+        }
+
         Vector3 relativePosition;
         Quaternion rotation;
         if (GetInput(out NetworkInputData data))
@@ -166,6 +196,8 @@ public class PlayerNetwork : NetworkBehaviour
             if (health <= 0)
             {
                 anim_triggers |= TriggerFlags.DEATH;
+                isDead = true;
+                respawnTime = Time.time + 1.5f;
             }
         }
     }
