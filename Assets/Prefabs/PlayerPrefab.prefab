@@ -818,7 +818,7 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 2
+  maxSpeed: 3.5
   rotationSpeed: 15
 --- !u!114 &6365163562865410842
 MonoBehaviour:
@@ -840,6 +840,9 @@ MonoBehaviour:
   _health: 1000
   _lookPoint: {x: 0, y: 0, z: 0}
   _ability: 0
+  _anim_movementInput: {x: 0, y: 0, z: 0}
+  _anim_isMoving: 0
+  _anim_triggers: 0
 --- !u!1001 &435607417300897612
 PrefabInstance:
   m_ObjectHideFlags: 0

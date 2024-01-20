@@ -17,6 +17,10 @@ public class PlayerNetwork : NetworkBehaviour
     [Networked] public PlayerController.Ability ability { get; set; }
     [Networked] public Vector3 anim_movementInput { get; set; }
     [Networked] public bool anim_isMoving { get; set; }
+    private const byte TRIGGER_ATTACK = 1;
+    private const byte TRIGGER_HIT = 2;
+    private const byte TRIGGER_DEATH = 3;
+    [Networked] public byte anim_triggers { get; set; }
     
     //float _speed = 5.0f;
 
@@ -37,6 +41,11 @@ public class PlayerNetwork : NetworkBehaviour
         animator.SetFloat("Horizontal", anim_movementInput.x);
         animator.SetFloat("Vertical", anim_movementInput.z);
         animator.SetBool("isMoving", anim_isMoving);
+        if ((anim_triggers & TRIGGER_ATTACK) != 0)
+        {
+            animator.SetTrigger("attack");
+        }
+        anim_triggers = 0;
     }
 
     public override void FixedUpdateNetwork()
@@ -52,6 +61,7 @@ public class PlayerNetwork : NetworkBehaviour
 
             anim_movementInput = data.direction;
             anim_isMoving = data.direction.magnitude > 0.1f;
+            anim_triggers = 0;
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_NOABILITY))
             {
@@ -69,6 +79,7 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK) && ability != PlayerController.Ability.None)
             {
+                anim_triggers |= TRIGGER_ATTACK;
                 GameObject prefab = null;
                 if (ability == PlayerController.Ability.First)
                 {
