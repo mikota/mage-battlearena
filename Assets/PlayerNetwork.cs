@@ -21,7 +21,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     public void Update()
     {
-     
+        clientHealth.SetCurrentHealth(health);
     }
 
     public override void FixedUpdateNetwork()
