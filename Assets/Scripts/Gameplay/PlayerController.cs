@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour {
         Projectile projectile = projectileObject.GetComponent<Projectile>();
 
         if (projectile != null) {
-            projectile.Initialize(transform.forward);
+            //projectile.Initialize(transform.forward);
         } else {
             Debug.LogError("ProjectilePrefab is missing a Projectile component.");
         }

@@ -11,8 +11,10 @@ public class Health : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI healthText;
     [SerializeField] private UnityEvent defeatCallback;
     [SerializeField] private UnityEvent getHitCallback;
+    [SerializeField] private TMPro.TextMeshProUGUI killCountText;
 
     private float currentHealth;
+    private float killCount = 0;
 
     void Start()
     {
@@ -49,11 +51,19 @@ public class Health : MonoBehaviour
         UpdateHealthUI();
     }
 
+    public void SetKillCount(float kills)
+    {
+        killCount = kills;
+        UpdateHealthUI();
+    }
+
     void UpdateHealthUI()
     {
         if (healthbar == null) return;
         healthbar.fillAmount = currentHealth / maxHealth;
         if (healthText == null) return;
         healthText.text = currentHealth.ToString();
+        if (killCountText == null) return;
+        killCountText.text = "Kills: " + killCount.ToString();
     }
 }

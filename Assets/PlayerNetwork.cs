@@ -37,6 +37,7 @@ public class PlayerNetwork : NetworkBehaviour
     private float ability2NextFireTime = 0f;
     [Networked] public bool isDead { get; set; }
     [Networked] public float respawnTime { get; set; }
+    [Networked] public int killCount { get; set; }
     
     //float _speed = 5.0f;
 
@@ -176,7 +177,7 @@ public class PlayerNetwork : NetworkBehaviour
                     relativePosition = lookPoint - transform.position;
                     rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
                     transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
-                    projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward); 
+                    projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward, this); 
                 }
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);

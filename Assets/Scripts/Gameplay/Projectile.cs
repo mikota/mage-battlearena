@@ -14,16 +14,18 @@ public class Projectile : NetworkBehaviour {
     float speedFraction = 0.0f;
     [SerializeField] private float scale = 1.0f;
     [SerializeField] private ParticleSystem particleSystem;
+    public PlayerNetwork playerNetwork;
 
     void Awake() {
         rigidBody = GetComponent<Rigidbody>();
     }
 
-    public void Initialize(Vector3 initialVelocity) {
+    public void Initialize(Vector3 initialVelocity, PlayerNetwork pl) {
         if (rigidBody != null) {
             //rigidBody.velocity = initialVelocity * speed;
             direction = initialVelocity.normalized;
         }
+        playerNetwork = pl;
         //Destroy(gameObject, duration);
     }
 
