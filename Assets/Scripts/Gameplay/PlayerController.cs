@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour {
         if (gameOver) return; 
         //HandleMovementInput();
         HandleMouseInput();
-        HandleMovementAnimation();
+      //  HandleMovementAnimation();
         HandleAbilityInput();
     }
 
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
          //   lookPoint = cameraRay.GetPoint(rayDistance);
             networkSpawner.ClientSetLookat(cameraRay.GetPoint(rayDistance)); 
         }
-
+        return;
         if (ability == Ability.None) return;
 
         if (Input.GetButtonDown("Fire1")) {
