@@ -54,7 +54,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         if ((anim_triggers & TriggerFlags.HIT) != 0)
         {
-            animator.SetTrigger("hit");
+            animator.SetTrigger("getHit");
             anim_triggers = anim_triggers & ~TriggerFlags.HIT;
         }
         if ((anim_triggers & TriggerFlags.DEATH) != 0)
