@@ -5533,14 +5533,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e863d8a08e474307802eaf34f998943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pitch: 44.9
-  Yaw: 0
+  Pitch: 50.1
+  Yaw: -33.5
   Roll: 0
   PaddingLeft: 0
   PaddingRight: 0
   PaddingUp: 6.99
   PaddingDown: 7.06
-  MoveSmoothTime: 0.19
+  MoveSmoothTime: 0.05
 --- !u!1001 &339696490
 PrefabInstance:
   m_ObjectHideFlags: 0
