@@ -70,6 +70,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             data.direction += Vector3.right;
 
         data.lookAt = lookAt;
+        data.buttons.Set(NetworkInputData.BUTTON_ATTACK, Input.GetButtonDown("Fire1"));
 
         input.Set(data);
     }

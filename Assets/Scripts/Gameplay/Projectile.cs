@@ -1,8 +1,9 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : NetworkBehaviour {
 
     //// Projectile components
     [SerializeField] private float duration = 3f;

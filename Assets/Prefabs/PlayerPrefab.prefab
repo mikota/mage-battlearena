@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 3276359207274590252}
+  projectileFirstPrefab: {fileID: 6665805917468377687, guid: 7207dbdf231d5bb42ab50ddff4299666, type: 3}
 --- !u!1 &8078055518016696320
 GameObject:
   m_ObjectHideFlags: 0

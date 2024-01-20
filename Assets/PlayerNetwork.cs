@@ -5,25 +5,30 @@ using Fusion;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-  private NetworkCharacterController _cc;
+    private NetworkCharacterController _cc;
     public PlayerController playerController;
+    [SerializeField] private GameObject projectileFirstPrefab;
 
-  //float _speed = 5.0f;
+    //float _speed = 5.0f;
 
-  private void Awake()
-  {
-    _cc = GetComponent<NetworkCharacterController>();
-    //_cc.MaxSpeed = _speed;
-  }
-
-  public override void FixedUpdateNetwork()
-  {
-    if (GetInput(out NetworkInputData data))
+    private void Awake()
     {
-      data.direction.Normalize();
-      _cc.Move(5*data.direction*Runner.DeltaTime);
-            playerController.SetLookPoint(data.lookAt);
-      //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
+        _cc = GetComponent<NetworkCharacterController>();
+        //_cc.MaxSpeed = _speed;
     }
-  }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (GetInput(out NetworkInputData data))
+        {
+            data.direction.Normalize();
+            _cc.Move(5 * data.direction * Runner.DeltaTime);
+            playerController.SetLookPoint(data.lookAt);
+            if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK))
+            {
+                Runner.Spawn(projectileFirstPrefab, transform.position + transform.forward, transform.rotation);
+            }
+            //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
+        }
+    }
 }
