@@ -12,6 +12,8 @@ public class Projectile : NetworkBehaviour {
     private Rigidbody rigidBody;
     private Vector3 direction;
     float speedFraction = 0.0f;
+    [SerializeField] private float scale = 1.0f;
+    [SerializeField] private ParticleSystem particleSystem;
 
     void Awake() {
         rigidBody = GetComponent<Rigidbody>();
@@ -27,8 +29,13 @@ public class Projectile : NetworkBehaviour {
 
     public override void FixedUpdateNetwork()
     {
-        speedFraction = Mathf.Lerp(speedFraction, 1.0f, Runner.DeltaTime*1.5f);
-        transform.localScale = new Vector3(0.75f,0.75f,0.75f) * speedFraction;
+        speedFraction = Mathf.Lerp(speedFraction, 1.0f, Runner.DeltaTime);
+        transform.localScale = new Vector3(0.75f,0.75f,0.75f) * speedFraction * scale;
+        //lerp particle system intensity/scale
+        var main = particleSystem.main;
+        main.startSize = speedFraction * scale;
+        main.startSpeed = speedFraction * scale;
+
 
         transform.position += direction * speedFraction * speed * Runner.DeltaTime;
     }

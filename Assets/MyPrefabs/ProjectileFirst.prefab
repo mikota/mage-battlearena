@@ -4980,8 +4980,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 3
-  speed: 20
+  speed: 38
   damage: 50
+  scale: 0.9
+  particleSystem: {fileID: 5200094952511763451}
 --- !u!114 &284024482931198000
 MonoBehaviour:
   m_ObjectHideFlags: 0
