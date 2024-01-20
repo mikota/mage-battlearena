@@ -37,10 +37,14 @@ public class PlayerNetwork : NetworkBehaviour
     private float ability2NextFireTime = 0f;
     [Networked] public bool isDead { get; set; }
     [Networked] public float respawnTime { get; set; }
-    [Networked] public int killCount { get; set; }
+    public int killCount { get; set; }
+    [Networked] public int _killCount { get; set; }
     
     //float _speed = 5.0f;
-
+    public void IncKillCount()
+    {
+        killCount++;
+    }
     private void Awake()
     {
         _cc = GetComponent<NetworkCharacterController>();
@@ -50,7 +54,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void Update()
     {
         clientHealth.SetCurrentHealth(health);
-        clientHealth.SetKillCount(killCount);
+        clientHealth.SetKillCount(_killCount);
         playerController.SetLookPoint(lookPoint);
         
         animator.SetFloat("horizontalMovement", anim_movementInput.x);
@@ -110,6 +114,7 @@ public class PlayerNetwork : NetworkBehaviour
             }
         }
         _cc.enabled = true;
+        _killCount = killCount;
         Vector3 relativePosition;
         Quaternion rotation;
         if (GetInput(out NetworkInputData data))

@@ -692,7 +692,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  killCountText: {fileID: 0}
+  killCountText: {fileID: 1082774848345060088}
 --- !u!54 &1165524962481276392
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -849,7 +849,7 @@ MonoBehaviour:
   abilitySecondCooldownTime: 2
   _isDead: 0
   _respawnTime: 0
-  _killCount: 0
+  __killCount: 0
 --- !u!1 &5040783974352993206
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,7 +915,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Kills: 0'
+  m_text: 'Kills: x'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

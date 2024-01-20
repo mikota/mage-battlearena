@@ -52,11 +52,14 @@ public class Projectile : NetworkBehaviour {
         PlayerNetwork playerNetwork = collision.gameObject.GetComponent<PlayerNetwork>();
         if (playerNetwork != null)
         {
-            Debug.Log("HIT for " + damage + " damage!");
-            if (playerNetwork.TakeDamage(damage)) //killing blow
+            if (!playerNetwork.isDead)
             {
-                playerOwner.killCount++;
-            }
+                Debug.Log("HIT for " + damage + " damage!");
+                if (playerNetwork.TakeDamage(damage)) //killing blow
+                {
+                    playerOwner.IncKillCount();
+                }
+            } 
         }
         Destroy(gameObject);
     }
