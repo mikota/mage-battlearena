@@ -66,6 +66,7 @@ public class PlayerNetwork : NetworkBehaviour
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
         }
+       // transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     public void TakeDamage(float dmg)
