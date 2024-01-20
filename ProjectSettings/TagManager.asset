@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - spawnpoint
+  - AbilityFirst
+  - AbilitySecond
   layers:
   - Default
   - TransparentFX

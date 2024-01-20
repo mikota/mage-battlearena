@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 5
   speed: 16
-  damage: 100
+  damage: 200
   scale: 1.75
   particleSystem: {fileID: 1296057238722681}
 --- !u!114 &1867490740229366663
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SyncScale: 0
+  SyncScale: 1
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0

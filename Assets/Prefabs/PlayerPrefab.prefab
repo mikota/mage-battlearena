@@ -843,6 +843,8 @@ MonoBehaviour:
   _anim_movementInput: {x: 0, y: 0, z: 0}
   _anim_isMoving: 0
   _anim_triggers: 0
+  abilityFirstCooldownTime: 0.2
+  abilitySecondCooldownTime: 2
 --- !u!1001 &435607417300897612
 PrefabInstance:
   m_ObjectHideFlags: 0
