@@ -11,10 +11,19 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private Vector3 lookAt;
+    private bool mouseButtonSampled = false;
 
     public void ClientSetLookat(Vector3 _lookAt)
     {
         lookAt = _lookAt;
+    }
+
+    public void Update()
+    {
+        if (!mouseButtonSampled)
+        {
+            mouseButtonSampled = Input.GetButtonDown("Fire1");
+        }
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -70,12 +79,19 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             data.direction += Vector3.right;
 
         data.lookAt = lookAt;
-        data.buttons.Set(NetworkInputData.BUTTON_ATTACK, Input.GetButtonDown("Fire1"));
+        data.buttons.Set(NetworkInputData.BUTTON_ATTACK, mouseButtonSampled);
+        mouseButtonSampled = false;
 
         input.Set(data);
     }
 
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
+    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) {
+        var data = new NetworkInputData();
+        data.direction = Vector3.zero;
+        data.lookAt = lookAt;
+        data.buttons.Set(NetworkInputData.BUTTON_ATTACK, Input.GetButtonDown("Fire1"));
+        input.Set(data);
+    }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
