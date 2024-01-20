@@ -25,6 +25,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void Update()
     {
         clientHealth.SetCurrentHealth(health);
+        playerController.SetLookPoint(lookPoint);
     }
 
     public override void FixedUpdateNetwork()
@@ -33,6 +34,7 @@ public class PlayerNetwork : NetworkBehaviour
         {
             data.direction.Normalize();
             _cc.Move(5 * data.direction * Runner.DeltaTime);
+            lookPoint = data.lookAt;
             playerController.SetLookPoint(data.lookAt);
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_NOABILITY))

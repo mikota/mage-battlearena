@@ -171,6 +171,7 @@ MonoBehaviour:
   abilitySecondCooldown: {fileID: 0}
   abilityFirstHolder: {fileID: 0}
   abilitySecondHolder: {fileID: 0}
+  movementController: {fileID: 0}
 --- !u!114 &1609698471925495188
 MonoBehaviour:
   m_ObjectHideFlags: 0
