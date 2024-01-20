@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float maxHealth;
+    [SerializeField] public float maxHealth;
     [SerializeField] private Image healthbar;
     [SerializeField] private TMPro.TextMeshProUGUI healthText;
     [SerializeField] private UnityEvent defeatCallback;

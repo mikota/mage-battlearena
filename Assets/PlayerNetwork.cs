@@ -10,7 +10,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private Health clientHealth;
     public PlayerRef playerRef;
     [SerializeField] private GameObject projectileFirstPrefab;
-    [Networked] public float health { get; set; } = 100;
+    [Networked] public float health { get; set; }
     //float _speed = 5.0f;
 
     private void Awake()
