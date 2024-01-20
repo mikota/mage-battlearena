@@ -30,10 +30,17 @@ public class Projectile : NetworkBehaviour {
     }
 
     void OnCollisionEnter(Collision collision) {
-        Health health = collision.gameObject.GetComponent<Health>();
+        Debug.Log("Projectile collided with " + collision.gameObject.name);
+        /*Health health = collision.gameObject.GetComponent<Health>();
         if (health != null) {
             Debug.Log("HIT for " + damage + " damage!");
             health.TakeDamage(damage);
+        }*/
+        PlayerNetwork playerNetwork = collision.gameObject.GetComponent<PlayerNetwork>();
+        if (playerNetwork != null)
+        {
+            Debug.Log("HIT for " + damage + " damage!");
+            playerNetwork.TakeDamage(damage);
         }
         Destroy(gameObject);
     }

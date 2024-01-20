@@ -7,14 +7,21 @@ public class PlayerNetwork : NetworkBehaviour
 {
     private NetworkCharacterController _cc;
     public PlayerController playerController;
+    [SerializeField] private Health clientHealth;
+    public PlayerRef playerRef;
     [SerializeField] private GameObject projectileFirstPrefab;
-
+    [Networked] public float health { get; set; } = 100;
     //float _speed = 5.0f;
 
     private void Awake()
     {
         _cc = GetComponent<NetworkCharacterController>();
         //_cc.MaxSpeed = _speed;
+    }
+
+    public void Update()
+    {
+     
     }
 
     public override void FixedUpdateNetwork()
@@ -30,6 +37,15 @@ public class PlayerNetwork : NetworkBehaviour
                 projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward);
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
+        }
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        if (playerController != null)
+        {
+            health -= dmg;
+            clientHealth.TakeDamage(dmg);
         }
     }
 }

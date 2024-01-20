@@ -48,6 +48,8 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             spawnPosition = new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 1.10f, UnityEngine.Random.Range(-1.0f, 1.0f));
 
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
+            networkPlayerObject.GetComponent<PlayerNetwork>().playerRef = player;
+            _runner.SetPlayerObject(player, networkPlayerObject);
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
         }

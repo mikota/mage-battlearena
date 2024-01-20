@@ -113,7 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 3276359207274590252}
+  clientHealth: {fileID: 5790475579762290424}
   projectileFirstPrefab: {fileID: 6665805917468377687, guid: 7207dbdf231d5bb42ab50ddff4299666, type: 3}
+  _health: 100
 --- !u!1 &8078055518016696320
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,3 +292,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2037499419697460875, guid: 2b7ea839701a9884b9d3f49a366d487c, type: 3}
   m_PrefabInstance: {fileID: 3407096309270762693}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5790475579762290424 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9156828317032053309, guid: 2b7ea839701a9884b9d3f49a366d487c, type: 3}
+  m_PrefabInstance: {fileID: 3407096309270762693}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7102bd157c804904b886f71164925673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
