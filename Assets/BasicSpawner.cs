@@ -40,7 +40,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             }
             else
             {
-                spawnPosition = new Vector3(UnityEngine.Random.Range(-5f, 5f), 1.10f, UnityEngine.Random.Range(-5f, 5f));
+                spawnPosition = new Vector3(UnityEngine.Random.Range(-1f, 1f), 1.10f, UnityEngine.Random.Range(-1f, 1f));
             }
             
 
