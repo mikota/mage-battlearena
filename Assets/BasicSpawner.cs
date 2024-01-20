@@ -53,6 +53,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
         }
+
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -62,6 +63,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             runner.Despawn(networkObject);
             _spawnedCharacters.Remove(player);
         }
+
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
