@@ -12,6 +12,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private Vector3 lookAt;
     private bool mouseButtonSampled = false;
+    private PlayerRef serverPlayerRef;
 
     public void ClientSetLookat(Vector3 _lookAt)
     {
@@ -25,11 +26,15 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             mouseButtonSampled = Input.GetButtonDown("Fire1");
         }
     }
-
+    private int playerCount = 0;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         if (runner.IsServer)
         {
+            if (serverPlayerRef == null)
+            {
+                serverPlayerRef = player;
+            }
             // Create a unique position for the player
             Vector3 spawnPosition;
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("spawnpoint");
@@ -45,7 +50,11 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             
 
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-            networkPlayerObject.GetComponent<PlayerNetwork>().playerRef = player;
+            PlayerNetwork pl = networkPlayerObject.GetComponent<PlayerNetwork>();
+            pl.playerRef = player;
+            pl.serverPlayerRef = serverPlayerRef;
+            pl.runner = runner;
+            pl.playerId = playerCount++;
             _runner.SetPlayerObject(player, networkPlayerObject);
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
@@ -68,16 +77,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         var data = new NetworkInputData();
 
         if (Input.GetKey(KeyCode.W))
-            data.direction += Vector3.forward;
+            data.direction += Vector3.right;
 
         if (Input.GetKey(KeyCode.S))
-            data.direction += Vector3.back;
-
-        if (Input.GetKey(KeyCode.A))
             data.direction += Vector3.left;
 
+        if (Input.GetKey(KeyCode.A))
+            data.direction += Vector3.forward;
+
         if (Input.GetKey(KeyCode.D))
-            data.direction += Vector3.right;
+            data.direction += Vector3.back;
 
         if (Input.GetKey(KeyCode.Q))
             data.buttons.Set(NetworkInputData.BUTTON_FIRSTABILITY, true);

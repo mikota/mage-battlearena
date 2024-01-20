@@ -9,8 +9,11 @@ public class PlayerNetwork : NetworkBehaviour
 {
     private NetworkCharacterController _cc;
     public PlayerController playerController;
+    public NetworkRunner runner = null;
     [SerializeField] private Health clientHealth;
     public PlayerRef playerRef;
+    public PlayerRef serverPlayerRef;
+    public int playerId;
     [SerializeField] private GameObject projectileFirstPrefab;
     [SerializeField] private GameObject projectileSecondPrefab;
     [SerializeField] private Animator animator;
@@ -108,10 +111,8 @@ public class PlayerNetwork : NetworkBehaviour
                     spawnPosition = new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 1.10f, UnityEngine.Random.Range(-1.0f, 1.0f));
                 }
                 transform.position = spawnPosition;
-            } else
-            {
-                return;
             }
+            return;
         }
         _cc.enabled = true;
         _killCount = killCount;
@@ -159,7 +160,17 @@ public class PlayerNetwork : NetworkBehaviour
                             ability1Cooldown = GameObject.FindGameObjectWithTag("AbilityFirst")
                                 .GetComponentInChildren<AbilityCooldown>();
                         }
-                        ability1Cooldown.StartCooldown(abilityFirstCooldownTime);
+                        //if server, don't do below for others
+                        if (runner)
+                        {
+                            if (playerId == 0)
+                            {
+                                ability1Cooldown.StartCooldown(abilityFirstCooldownTime);
+                            }
+                        } else
+                        {
+                            ability1Cooldown.StartCooldown(abilityFirstCooldownTime);
+                        }
                     }
                 } else
                 {
@@ -174,7 +185,17 @@ public class PlayerNetwork : NetworkBehaviour
                             ability2Cooldown = GameObject.FindGameObjectWithTag("AbilitySecond")
                                 .GetComponentInChildren<AbilityCooldown>();
                         }
-                        ability2Cooldown.StartCooldown(abilitySecondCooldownTime);
+                        //if server, don't do below for others
+                        if (runner)
+                        {
+                            if (playerId == 0)
+                            {
+                                ability2Cooldown.StartCooldown(abilitySecondCooldownTime);
+                            }
+                        } else
+                        {
+                            ability2Cooldown.StartCooldown(abilitySecondCooldownTime);
+                        }
                     }
                     prefab = projectileSecondPrefab;
                 }
