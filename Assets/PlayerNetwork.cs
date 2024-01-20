@@ -26,7 +26,8 @@ public class PlayerNetwork : NetworkBehaviour
             playerController.SetLookPoint(data.lookAt);
             if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK))
             {
-                Runner.Spawn(projectileFirstPrefab, transform.position + transform.forward, transform.rotation);
+                var projectile = Runner.Spawn(projectileFirstPrefab, transform.position + transform.forward, transform.rotation);
+                projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward);
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
         }

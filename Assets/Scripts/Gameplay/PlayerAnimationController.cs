@@ -8,6 +8,6 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void FireProjectile()
     {
-        playerController.FireProjectile();
+        //playerController.FireProjectile();
     }
 }
