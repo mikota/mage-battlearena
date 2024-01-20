@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -25,6 +27,14 @@ public class PlayerNetwork : NetworkBehaviour
         DEATH = 4
     }
     [Networked] public TriggerFlags anim_triggers { get; set; }
+    private GameObject abilityHolder1;
+    private GameObject abilityHolder2;
+    private AbilityCooldown ability1Cooldown;
+    private AbilityCooldown ability2Cooldown;
+    [SerializeField] private float abilityFirstCooldownTime = 0.2f;
+    [SerializeField] private float abilitySecondCooldownTime = 1.5f;
+    private float ability1NextFireTime = 0f;
+    private float ability2NextFireTime = 0f;
     
     //float _speed = 5.0f;
 
@@ -94,20 +104,50 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (data.buttons.IsSet(NetworkInputData.BUTTON_ATTACK) && ability != PlayerController.Ability.None)
             {
-                anim_triggers |= TriggerFlags.ATTACK;
                 GameObject prefab = null;
+                bool canAttack = true;
                 if (ability == PlayerController.Ability.First)
                 {
                     prefab = projectileFirstPrefab;
+                    if (Time.time < ability1NextFireTime)
+                    {
+                        canAttack = false;
+                    } else
+                    {
+                        ability1NextFireTime = Time.time + abilityFirstCooldownTime;
+                        if (ability1Cooldown == null)
+                        {
+                            ability1Cooldown = GameObject.FindGameObjectWithTag("AbilityFirst")
+                                .GetComponentInChildren<AbilityCooldown>();
+                        }
+                        ability1Cooldown.StartCooldown(abilityFirstCooldownTime);
+                    }
                 } else
                 {
+                    if (Time.time < ability2NextFireTime)
+                    {
+                        canAttack = false;
+                    } else
+                    {
+                        ability2NextFireTime = Time.time + abilitySecondCooldownTime;
+                        if (ability2Cooldown == null)
+                        {
+                            ability2Cooldown = GameObject.FindGameObjectWithTag("AbilitySecond")
+                                .GetComponentInChildren<AbilityCooldown>();
+                        }
+                        ability2Cooldown.StartCooldown(abilitySecondCooldownTime);
+                    }
                     prefab = projectileSecondPrefab;
                 }
-                var projectile = Runner.Spawn(prefab, transform.position + transform.forward, transform.rotation);
-                relativePosition = lookPoint - transform.position;
-                rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
-                transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
-                projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward);
+                if (canAttack) 
+                {
+                    anim_triggers |= TriggerFlags.ATTACK;
+                    var projectile = Runner.Spawn(prefab, transform.position + transform.forward, transform.rotation);
+                    relativePosition = lookPoint - transform.position;
+                    rotation = Quaternion.LookRotation(relativePosition, Vector3.up);
+                    transform.localEulerAngles = new Vector3(0, rotation.eulerAngles.y, 0);
+                    projectile.GetComponent<Projectile>().Initialize(playerController.transform.forward); 
+                }
             }
             //_cc.SimpleMove(_speed*data.direction*Runner.DeltaTime);
         }

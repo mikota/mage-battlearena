@@ -12343,7 +12343,7 @@ GameObject:
   - component: {fileID: 819209692}
   m_Layer: 5
   m_Name: SecondAbilityHolder
-  m_TagString: Untagged
+  m_TagString: AbilitySecond
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22772,7 +22772,7 @@ GameObject:
   - component: {fileID: 1544887111}
   m_Layer: 5
   m_Name: FirstAbilityHolder
-  m_TagString: Untagged
+  m_TagString: AbilityFirst
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

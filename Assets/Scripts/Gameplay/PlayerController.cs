@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour {
         //HandleMovementInput();
         HandleMouseInput();
       //  HandleMovementAnimation();
-        HandleAbilityInput();
+     //   HandleAbilityInput();
     }
 
     void FixedUpdate() {
