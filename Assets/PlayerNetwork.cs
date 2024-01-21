@@ -46,7 +46,7 @@ public class PlayerNetwork : NetworkBehaviour
     //float _speed = 5.0f;
     public void IncKillCount()
     {
-        killCount++;
+        _killCount++;
     }
     private void Awake()
     {
@@ -80,7 +80,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         if ((anim_triggers & TriggerFlags.DEATH) != 0)
         {
-            animator.SetTrigger("die");
+           // animator.SetTrigger("die");
             anim_triggers = anim_triggers & ~TriggerFlags.DEATH;
         }
     }
@@ -115,7 +115,7 @@ public class PlayerNetwork : NetworkBehaviour
             return;
         }
         _cc.enabled = true;
-        _killCount = killCount;
+        //_killCount = killCount;
         Vector3 relativePosition;
         Quaternion rotation;
         if (GetInput(out NetworkInputData data))
